@@ -6,6 +6,13 @@
   left: 0;
 }
 
+.search-bar-container {
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  z-index: 101;
+}
+
 .top-controls {
   position: absolute;
   top: 20px;
@@ -13,6 +20,9 @@
   display: flex;
   gap: 8px;
   z-index: 100;
+  flex-wrap: wrap;
+  max-width: 350px;
+  justify-content: flex-end;
 }
 
 .control-button {

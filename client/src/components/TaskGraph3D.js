@@ -3,6 +3,8 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Text, Line, Billboard } from '@react-three/drei';
 import * as THREE from 'three';
 import NodeGizmo from './NodeGizmo';
+import SearchBar from './SearchBar';
+import CameraAnimator from './CameraAnimator';
 import axios from 'axios';
 import { findAllChildren, calculateRelativeOffset, applyOffset } from '../utils/treeHelpers';
 import './TaskGraph3D.css';
@@ -250,15 +252,40 @@ function TaskGraph3D({ tasks, relations, onTaskClick, onRelationCreated, onTasks
   const [selectedForLink, setSelectedForLink] = useState(null);
   const [linkMode, setLinkMode] = useState(false);
   const [cameraKey, setCameraKey] = useState(0);
-  const [cameraPos, setCameraPos] = useState({ x: 15, y: 0, z: 0 });
+  const [cameraPos, setCameraPos] = useState({ x: 0, y: 0, z: 25 });
+  const [cameraLookAt, setCameraLookAt] = useState(null);
   const [selectedForMove, setSelectedForMove] = useState(null);
   const [moveMode, setMoveMode] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [tempPosition, setTempPosition] = useState(null);
+  const [cameraTarget, setCameraTarget] = useState(null);
   const controlsRef = useRef();
 
+  const handleTaskSearch = (task) => {
+    // Calculate camera position: task position + offset
+    const taskPos = getTaskPosition(task);
+    const distance = 3; // Distance from task
+    
+    // Position camera at an angle from the task
+    const cameraPos = [
+      taskPos[0] + distance,
+      taskPos[1] + distance * 0.5,
+      taskPos[2] + distance * 0.5
+    ];
+    
+    // Reset previous animation state before starting new one
+    setCameraTarget(null);
+    setCameraLookAt(null);
+    setTimeout(() => {
+      setCameraTarget(cameraPos);
+      setCameraLookAt(taskPos); // Animate lookAt to task position
+    }, 50);
+  };
+
   const resetCamera = () => {
-    setCameraKey(prev => prev + 1);
+    // Smooth animation to default position and lookAt
+    setCameraTarget([0, 0, 25]);
+    setCameraLookAt([0, 0, 0]); // Animate lookAt back to center
   };
 
   useEffect(() => {
@@ -288,13 +315,18 @@ function TaskGraph3D({ tasks, relations, onTaskClick, onRelationCreated, onTasks
         </div>
       )}
       
+      <SearchBar
+        tasks={tasks}
+        onTaskSelect={handleTaskSearch}
+      />
+
       <div className="top-controls">
         <button
           className="control-button reset-camera"
           onClick={resetCamera}
           title="Вернуться к начальному виду"
         >
-          🎯 Сбросить
+          🎯 Сброс
         </button>
         
         <button
@@ -332,7 +364,7 @@ function TaskGraph3D({ tasks, relations, onTaskClick, onRelationCreated, onTasks
 
       <Canvas
         key={cameraKey}
-        camera={{ position: [15, 0, 0], fov: 75 }}
+        camera={{ position: [0, 0, 25], fov: 75 }}
         onPointerMissed={() => {
           if (linkMode) {
             setSelectedForLink(null);
@@ -340,6 +372,15 @@ function TaskGraph3D({ tasks, relations, onTaskClick, onRelationCreated, onTasks
         }}
       >
         <CameraTracker onPositionChange={setCameraPos} />
+        <CameraAnimator
+          targetPosition={cameraTarget}
+          targetLookAt={cameraLookAt}
+          controlsRef={controlsRef}
+          onComplete={() => {
+            setCameraTarget(null);
+            setCameraLookAt(null);
+          }}
+        />
         
         <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
