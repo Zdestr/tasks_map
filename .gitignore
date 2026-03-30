@@ -34,3 +34,10 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Documentation (except README)
+TROUBLESHOOTING.md
+RESTART_GUIDE.md
+QUICK_START.md
+TEST_IMPORT.md
+test_*.js
