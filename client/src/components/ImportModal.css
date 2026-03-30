@@ -1,0 +1,145 @@
+.import-modal {
+  max-width: 700px;
+}
+
+.import-content {
+  padding: 20px;
+}
+
+.import-info, .import-rules {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.import-info h3, .import-rules h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #1f2937;
+}
+
+.import-info p {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+
+.import-info ul, .import-rules ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.import-info li, .import-rules li {
+  font-size: 13px;
+  color: #374151;
+  padding: 5px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.import-info li::before {
+  content: '•';
+  position: absolute;
+  left: 5px;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.import-info li strong {
+  color: #667eea;
+}
+
+.file-upload {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.file-input-label:hover {
+  transform: translateY(-2px);
+}
+
+.file-selected {
+  margin-top: 10px;
+  padding: 10px;
+  background: #d1fae5;
+  border-radius: 6px;
+  color: #065f46;
+  font-size: 14px;
+}
+
+.import-error {
+  margin: 15px 0;
+  padding: 12px;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.import-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.template-btn, .import-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.template-btn {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.template-btn:hover {
+  background: #e5e7eb;
+}
+
+.import-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.import-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.import-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.import-warning {
+  margin-top: 15px;
+  padding: 10px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  color: #92400e;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
